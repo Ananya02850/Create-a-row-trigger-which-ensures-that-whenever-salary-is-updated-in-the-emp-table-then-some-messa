@@ -1,0 +1,61 @@
+create table emp(e_id int,e_name varchar2(10),address varchar(15),salary number);
+
+insert into emp values(1,'Sahil','Punjab',15000);
+
+insert into emp values(2,'Aman','Telangana',25000);
+
+insert into emp values(3,'Honey','Ludhiana',18000);
+
+insert into emp values(4,'Amrit','CHD',19000);
+
+insert into emp values(5,'Sid','Gujarat',24000);
+
+
+
+create or replace trigger display_salary before insert or update on emp
+
+for each row
+
+when (new.e_id > 0 )
+
+declare
+
+sal_diff number;
+
+begin
+
+sal_diff := :New.salary - :old.salary;
+
+dbms_output.put_line('id : '||:old.e_id);
+
+dbms_output.put_line('New Salary : '||:new.salary);
+
+dbms_output.put_line('Old Salary : '||:old.salary);
+
+dbms_output.put_line('Salary diff : '||sal_diff);
+
+end;
+
+/
+
+
+
+declare
+
+total_row int;
+
+begin
+
+update emp set salary = salary + 1000;
+
+if sql%found then
+
+total_row := sql%rowcount;
+
+end if;
+
+dbms_output.put_line(total_row||' rows updated');
+
+end;
+
+/
